@@ -29,25 +29,25 @@ This script works on Ubuntu and macOS. You’ll need:
 
 ### ✅ Ubuntu: Install dependencies
 
-
+```
 sudo apt update
 sudo apt install -y curl jq build-essential golang
-
+```
 
 ### ✅ macOS (with Homebrew)
 
-
+```
 brew install jq go
-
+```
 
 ---
 
 ## 🛠️ Usage
 
-
+```
 chmod +x k9s-updater.sh
 ./k9s-updater.sh
-
+```
 
 The script will:
 
@@ -64,7 +64,7 @@ The script will:
 
 ## 📂 Example Output
 
-
+```bash
 Installed version: v0.50.7
 Latest available version: v0.50.9
 Updating to version v0.50.9...
@@ -76,7 +76,7 @@ Updating to version v0.50.9...
 ✅ Binary file execs/k9s created
 ✅ k9s successfully installed in /usr/local/bin
 v0.50.9
-
+```
 
 ---
 
@@ -97,5 +97,5 @@ MIT — use freely, fork freely.
 
 ## 👤 Author
 
-Maintained by **you** 😎  
+Maintained by **me** 😎  
 Pull requests and improvements welcome!
