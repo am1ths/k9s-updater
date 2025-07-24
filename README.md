@@ -1,6 +1,6 @@
 # 🧩 k9s-updater.sh
 
-A Bash script that checks the latest version of [k9s](https://github.com/derailed/k9s), compares it with the installed version, and builds it from source only if needed.
+A simple Bash script that checks the latest version of [k9s](https://github.com/derailed/k9s), compares it with the installed version, and builds it from source only if needed.
 
 ---
 
