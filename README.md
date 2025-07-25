@@ -31,7 +31,7 @@ This script works on Ubuntu and macOS. You’ll need:
 
 ```
 sudo apt update
-sudo apt install -y curl jq build-essential golang
+sudo apt install -y wget jq build-essential golang
 ```
 
 ### ✅ macOS (with Homebrew)
