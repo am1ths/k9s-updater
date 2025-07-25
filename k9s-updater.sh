@@ -7,18 +7,18 @@ ARCHIVE_NAME="${PACKAGE_NAME}.tar.gz"
 # Where the binary is located (or how to get the current version)
 INSTALLED_VERSION=$($PACKAGE_NAME version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 if [ -z "$INSTALLED_VERSION" ]; then
-    echo "Package $PACKAGE_NAME is not installed."
+    echo "📦 Package $PACKAGE_NAME is not installed."
 else
     echo "Installed version: v$INSTALLED_VERSION"
 fi
 
 # Get the latest version from GitHub via API
 LATEST_VERSION=$(curl -s "https://api.github.com/repos/$GITHUB_REPO/releases/latest" | jq -r '.tag_name')
-echo "Latest available version: $LATEST_VERSION"
+echo "📦 Latest available version: $LATEST_VERSION"
 
 # Compare versions
 if [ "v$INSTALLED_VERSION" == "$LATEST_VERSION" ]; then
-    echo "Latest version is already installed. Installation is not required."
+    echo "💡 Latest version is already installed. Installation is not required."
     exit 0
 fi
 
@@ -82,7 +82,7 @@ cd "$PACKAGE_NAME-$STRIPPED_VERSION" || exit 1
 
 
 if make build; then
-  echo "✅ Binary file execs/$PACKAGE_NAME exists"
+  echo "✅ Binary file execs/$PACKAGE_NAME created"
   chmod +x execs/"$PACKAGE_NAME"
   sudo cp execs/"$PACKAGE_NAME" /usr/local/bin/
 else
