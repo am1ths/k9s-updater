@@ -22,7 +22,7 @@ This script works on Ubuntu and macOS. You’ll need:
 | Tool      | Description                    |
 |-----------|--------------------------------|
 | bash    | Shell to run the script        |
-| curl    | Download files from GitHub     |
+| wget    | Download files from GitHub     |
 | jq      | Parse JSON from GitHub API     |
 | make    | Build system to compile source |
 | go      | Go compiler to build k9s       |
