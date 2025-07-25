@@ -71,7 +71,7 @@ Latest available version: v0.50.9
 ♻️ Outdated version detected. Removing /usr/local/bin/k9s...
 🛠 Starting build from source...
 ✅ Build completed successfully
-✅ Binary file execs/k9s exists
+✅ Binary file execs/k9s created
  ____  __ ________       
 |    |/  /   __   \______
 |       /\____    /  ___/
