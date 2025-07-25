@@ -50,7 +50,7 @@ if [ -f "$ARCHIVE_NAME" ]; then
 else
 
 # Download the source archive (assuming for Linux amd64)
-curl -L -o $PACKAGE_NAME.tar.gz "https://github.com/derailed/k9s/archive/refs/tags/$LATEST_VERSION.tar.gz"
+wget -O $PACKAGE_NAME.tar.gz "https://github.com/derailed/k9s/archive/refs/tags/$LATEST_VERSION.tar.gz"
 
 fi
 
