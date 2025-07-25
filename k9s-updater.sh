@@ -65,7 +65,7 @@ else
   echo "Extracting archive $PACKAGE_NAME.tar.gz"
 
   sleep 1
-  tar -xzvf $PACKAGE_NAME.tar.gz
+  tar -xvf $PACKAGE_NAME.tar.gz
 
   echo "Archive $PACKAGE_NAME.tar.gz extracted"
 fi
