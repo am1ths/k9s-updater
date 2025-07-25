@@ -37,7 +37,7 @@ sudo apt install -y wget jq build-essential golang
 ### ✅ macOS (with Homebrew)
 
 ```
-brew install jq go
+brew install wget jq go
 ```
 
 ---
