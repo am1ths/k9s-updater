@@ -67,15 +67,23 @@ The script will:
 ```bash
 Installed version: v0.50.7
 Latest available version: v0.50.9
-Updating to version v0.50.9...
-✅ Archive k9s.tar.gz already exists. Skipping download.
-✅ Folder k9s-0.50.9 already exists.
-🧹 Removing existing binary at /usr/local/bin/k9s...
+🔍 Detected installed version: v0.50.7
+♻️ Outdated version detected. Removing /usr/local/bin/k9s...
 🛠 Starting build from source...
 ✅ Build completed successfully
-✅ Binary file execs/k9s created
-✅ k9s successfully installed in /usr/local/bin
-v0.50.9
+✅ Binary file execs/k9s exists
+ ____  __ ________       
+|    |/  /   __   \______
+|       /\____    /  ___/
+|    \   \  /    /\___  \
+|____|\__ \/____//____  /
+         \/           \/ 
+
+Version:    v0.50.9
+Commit:     
+Date:       2025-07-25T04:23:15Z
+✅ Installation completed ✅
+
 ```
 
 ---
