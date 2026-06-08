@@ -22,7 +22,7 @@ This script works on Ubuntu and macOS. You’ll need:
 | Tool      | Description                    |
 |-----------|--------------------------------|
 | bash    | Shell to run the script        |
-| wget    | Download files from GitHub     |
+| curl    | Download files from GitHub (wget also supported) |
 | jq      | Parse JSON from GitHub API     |
 | make    | Build system to compile source |
 | go      | Go compiler to build k9s       |
@@ -31,14 +31,16 @@ This script works on Ubuntu and macOS. You’ll need:
 
 ```
 sudo apt update
-sudo apt install -y wget jq build-essential golang
+sudo apt install -y curl jq build-essential golang
 ```
 
 ### ✅ macOS (with Homebrew)
 
 ```
-brew install wget jq go
+brew install jq go
 ```
+
+> `curl` ships with macOS by default, so only `jq` and `go` need installing.
 
 ---
 

@@ -7,6 +7,11 @@ GITHUB_REPO="derailed/k9s"
 ARCHIVE_NAME="${PACKAGE_NAME}.tar.gz"
 ARCHIVE_URL="https://github.com/${GITHUB_REPO}/archive/refs/tags"
 
+# Where to install the binary. Defaults to the user's ~/.local/bin (no sudo,
+# XDG-standard). Override with: INSTALL_DIR=/usr/local/bin ./k9s-updater.sh
+INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
+mkdir -p "$INSTALL_DIR"
+
 # Where the binary is located (or how to get the current version)
 INSTALLED_VERSION=$($PACKAGE_NAME version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || true)
 if [ -z "$INSTALLED_VERSION" ]; then
@@ -47,8 +52,13 @@ if command -v "$PACKAGE_NAME" >/dev/null; then
   echo "🔍 Detected installed version: v$INSTALLED_VERSION"
 
   if [ "$INSTALLED_VERSION" != "$LATEST_VERSION_CLEAN" ]; then
-    echo "♻️ Outdated version detected. Removing /usr/local/bin/$PACKAGE_NAME..."
-    sudo rm -f /usr/local/bin/"$PACKAGE_NAME"
+    OLD_BIN="$(command -v "$PACKAGE_NAME")"
+    echo "♻️ Outdated version detected. Removing $OLD_BIN..."
+    if [ -w "$(dirname "$OLD_BIN")" ]; then
+      rm -f "$OLD_BIN"
+    else
+      sudo rm -f "$OLD_BIN"
+    fi
     sleep 1
   else
     echo "✅ Latest version is already installed. Nothing to remove."
@@ -74,9 +84,20 @@ if [ -d "$FOLDER_NAME" ]; then
   rm -rf "$FOLDER_NAME"
 fi
 
-# Download the source archive
+# Download the source archive (curl is already required above; wget is optional)
 echo "⬇️ Downloading $LATEST_VERSION..."
-if ! wget -q --show-progress -O "$ARCHIVE_NAME" "${ARCHIVE_URL}/${LATEST_VERSION}.tar.gz"; then
+DOWNLOAD_URL="${ARCHIVE_URL}/${LATEST_VERSION}.tar.gz"
+if command -v curl &>/dev/null; then
+  DOWNLOAD_OK=0
+  curl -fL --progress-bar -o "$ARCHIVE_NAME" "$DOWNLOAD_URL" && DOWNLOAD_OK=1
+elif command -v wget &>/dev/null; then
+  DOWNLOAD_OK=0
+  wget -q --show-progress -O "$ARCHIVE_NAME" "$DOWNLOAD_URL" && DOWNLOAD_OK=1
+else
+  echo "❌ Error: neither curl nor wget is installed"
+  exit 1
+fi
+if [ "$DOWNLOAD_OK" -ne 1 ]; then
   echo "❌ Error: Failed to download archive"
   exit 1
 fi
@@ -88,19 +109,32 @@ tar -xf "$ARCHIVE_NAME"
 echo "✅ Archive extracted to $FOLDER_NAME"
 
 echo "🛠️ Starting build from source..."
+WORK_DIR="$(pwd)"
 cd "$FOLDER_NAME" || exit 1
 
 if make build; then
   echo "✅ Binary file execs/$PACKAGE_NAME created"
   chmod +x execs/"$PACKAGE_NAME"
-  sudo cp execs/"$PACKAGE_NAME" /usr/local/bin/
-  echo "✅ Binary installed to /usr/local/bin/$PACKAGE_NAME"
+  # Use sudo only when the target directory isn't writable by the current user
+  if [ -w "$INSTALL_DIR" ]; then
+    cp execs/"$PACKAGE_NAME" "$INSTALL_DIR"/
+  else
+    sudo cp execs/"$PACKAGE_NAME" "$INSTALL_DIR"/
+  fi
+  echo "✅ Binary installed to $INSTALL_DIR/$PACKAGE_NAME"
 else
   echo "❌ Binary file execs/$PACKAGE_NAME not found after build"
   exit 1
 fi
 
+# Clean up build artifacts now that the install succeeded
+cd "$WORK_DIR" || exit 1
+echo "🧼 Cleaning up build artifacts..."
+rm -f "$ARCHIVE_NAME"
+rm -rf "$FOLDER_NAME"
+echo "✅ Removed $ARCHIVE_NAME and $FOLDER_NAME"
+
 echo ""
-$PACKAGE_NAME version
+"$INSTALL_DIR/$PACKAGE_NAME" version
 echo ""
 echo "✅ Installation completed"
